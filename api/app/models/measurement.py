@@ -15,7 +15,8 @@ class Measurement(Base):
     unit = Column(String(20))
     source = Column(String(50))
     is_valid = Column(Boolean, default=True)
-    created_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+    inserted_at = Column(TIMESTAMP, server_default=func.current_timestamp())
+    processed_at = Column(TIMESTAMP, server_default=func.current_timestamp())
     
     # Relaciones
     station = relationship("Station", back_populates="measurements")

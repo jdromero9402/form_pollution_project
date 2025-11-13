@@ -19,7 +19,7 @@ class MeasurementCreate(MeasurementBase):
     def as_form(
         cls,
         station_id: int = Form(...),
-        pollutant_id: int = Form(...),
+        pollutant_id: str = Form(...),
         ts_utc: str = Form(...),
         value: str = Form(...),
         unit: Optional[str] = Form(None),
@@ -52,6 +52,6 @@ class MeasurementCreate(MeasurementBase):
 class MeasurementResponse(MeasurementBase):
     """Schema para la respuesta"""
     measurement_sk: int
-    created_at: datetime
+    inserted_at: datetime
     
     model_config = ConfigDict(from_attributes=True)

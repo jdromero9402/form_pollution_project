@@ -51,15 +51,13 @@ async def create_measurements_bulk(
 
 @router.get("/", response_model=List[MeasurementResponse])
 async def get_measurements(
-    skip: int = 0,
-    limit: int = 100,
     db: AsyncSession = Depends(get_db)
 ):
     """
     Obtiene mediciones
     """
     result = await db.execute(
-        select(Measurement).offset(skip).limit(limit)
+        select(Measurement)
     )
     measurements = result.scalars().all()
     return measurements

@@ -43,15 +43,13 @@ async def create_station(
 
 @router.get("/", response_model=List[StationResponse])
 async def get_stations(
-    skip: int = 0,
-    limit: int = 100,
     db: AsyncSession = Depends(get_db)
 ):
     """
     Obtiene todas las estaciones
     """
     result = await db.execute(
-        select(Station).offset(skip).limit(limit)
+        select(Station)
     )
     stations = result.scalars().all()
     return stations

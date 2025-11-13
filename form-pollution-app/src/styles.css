@@ -1,0 +1,147 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* App container */
+#app {
+    width: 100%;
+    max-width: 720px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    box-sizing: border-box;
+}
+
+/* Headings */
+h1, h2 {
+    color: #333;
+    text-align: center;
+    margin-top: 0;
+}
+
+/* Content area: stack items vertically */
+#content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+}
+
+/* Forms */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Labels / inputs */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+/* Buttons: full width, one per row */
+button {
+    display: block;
+    width: 50%;
+    padding: 12px 16px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* If you still use small inline action buttons, keep a small variant */
+button.small {
+    width: auto;
+    padding: 8px 12px;
+    margin-right: 10px;
+}
+
+/* Messages */
+.success-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+}
+
+.error-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+}
+
+/* Suggestions list (ensure parent is position:relative where used) */
+.suggestions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: white;
+    position: absolute;
+    z-index: 1000;
+    width: calc(100% - 22px);  /* Ajusta al ancho del input */
+}
+.suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    #app { padding: 16px; }
+    form { padding: 16px; max-width: 100%; }
+    button { font-size: 15px; padding: 10px; }
+}

@@ -52,15 +52,13 @@ async def create_capabilities_bulk(
 
 @router.get("/", response_model=List[CapabilityResponse])
 async def get_capabilities(
-    skip: int = 0,
-    limit: int = 100,
     db: AsyncSession = Depends(get_db)
 ):
     """
     Obtiene todas las capacidades
     """
     result = await db.execute(
-        select(StationCapability).offset(skip).limit(limit)
+        select(StationCapability)
     )
     capabilities = result.scalars().all()
     return capabilities

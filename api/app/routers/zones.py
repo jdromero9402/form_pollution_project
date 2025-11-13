@@ -43,15 +43,13 @@ async def create_zone(
 
 @router.get("/", response_model=List[ZoneResponse])
 async def get_zones(
-    skip: int = 0,
-    limit: int = 100,
     db: AsyncSession = Depends(get_db)
 ):
     """
     Obtiene todas las zonas
     """
     result = await db.execute(
-        select(Zone).offset(skip).limit(limit)
+        select(Zone)
     )
     zones = result.scalars().all()
     return zones
