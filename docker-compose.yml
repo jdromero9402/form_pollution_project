@@ -24,5 +24,5 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_API_URL=http://54.242.202.116
+      - REACT_APP_API_URL=54.242.203.116
     command: ["npm", "start"]
