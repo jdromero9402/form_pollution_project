@@ -58,19 +58,26 @@ function PollutantsForm({ setView }) {
     <>
       <h2>Formulario de Contaminantes</h2>
       <form onSubmit={handleSubmit}>
-        <label>ID del contaminante (str):</label>
+        <label>ID del contaminante:</label>
         <input type="text" name="pollutant_id" value={formData.pollutant_id} onChange={handleChange} required placeholder="Ej: NO2" />
 
-        <label>Nombre (str):</label>
+        <label>Nombre:</label>
         <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Ej: Dióxido de Nitrógeno" />
 
-        <label>Unidad por defecto (opcional, str):</label>
-        <input type="text" name="default_unit" value={formData.default_unit} onChange={handleChange} placeholder="Ej: µg/m³" />
+        {/* <label>Unidad por defecto (opcional, str):</label>
+        <input type="text" name="default_unit" value={formData.default_unit} onChange={handleChange} placeholder="Ej: µg/m³" /> */}
 
-        <label>Límite diario WHO (opcional, Decimal):</label>
+        <label>Unidad por defecto:</label>
+        <select value={formData.default_unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} required>
+          <option value="">Seleccione unidad</option>
+          <option value="mg/m³">mg/m³</option>
+          <option value="µg/m³">µg/m³</option>
+        </select>
+
+        <label>Límite diario OMS:</label>
         <input type="number" name="who_daily_limit" value={formData.who_daily_limit} onChange={handleChange} step="any" placeholder="Ej: 40.0" />
 
-        <label>Límite anual WHO (opcional, Decimal):</label>
+        <label>Límite anual OMS :</label>
         <input type="number" name="who_annual_limit" value={formData.who_annual_limit} onChange={handleChange} step="any" placeholder="Ej: 20.0" />
 
         <div className="buttons-container">

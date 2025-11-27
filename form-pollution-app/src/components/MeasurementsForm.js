@@ -10,7 +10,7 @@ function MeasurementsForm({ setView }) {
   const [pollutantQuery, setPollutantQuery] = useState('');
   const [selectedStationId, setSelectedStationId] = useState(null);
   const [selectedPollutantId, setSelectedPollutantId] = useState(null);
-  const [formData, setFormData] = useState({ ts_utc: '', value: '', unit: '', source: '', is_valid: true });
+  const [formData, setFormData] = useState({ ts_utc: '', value: '', unit: '', source: 'synthetic_projected', is_valid: true });
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
 
@@ -92,17 +92,23 @@ function MeasurementsForm({ setView }) {
         />
         <input type="hidden" name="pollutant_id" value={selectedPollutantId || ''} />
 
-        <label>Timestamp UTC (datetime):</label>
+        <label>Fecha Medición:</label>
         <input type="datetime-local" value={formData.ts_utc} onChange={(e) => setFormData({ ...formData, ts_utc: e.target.value })} required />
 
-        <label>Valor medido (opcional, Decimal):</label>
+        <label>Valor medido (Decimal):</label>
         <input type="number" step="any" value={formData.value} onChange={(e) => setFormData({ ...formData, value: e.target.value })} />
 
-        <label>Unidad (opcional, str, max 20):</label>
-        <input type="text" maxLength="20" value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} />
 
-        <label>Fuente de datos (opcional, str, max 50):</label>
-        <input type="text" maxLength="50" value={formData.source} onChange={(e) => setFormData({ ...formData, source: e.target.value })} />
+        <label>Unidad :</label>
+        <select value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} required>
+          <option value="">Seleccione unidad</option>
+          <option value="mg/m³">mg/m³</option>
+          <option value="µg/m³">µg/m³</option>
+        </select>
+
+        <label>Fuente de datos:</label>
+        <input type="text" maxLength="50" value={formData.source} readOnly />
+        {/* <input type="text" maxLength="50" value="synt hetic_projected" onChange={(e) => setFormData({ ...formData, source: e.target.value })} /> */}
 
         <label>¿Es válida la medición?</label>
         <input type="checkbox" checked={formData.is_valid} onChange={(e) => setFormData({ ...formData, is_valid: e.target.checked })} />

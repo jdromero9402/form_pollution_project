@@ -7,6 +7,7 @@ function StationsForm({ setView }) {
   const [zones, setZones] = useState([]);
   const [zoneQuery, setZoneQuery] = useState('');
   const [selectedZoneId, setSelectedZoneId] = useState(null);
+  const [showMap, setShowMap] = useState(false);
   const [formData, setFormData] = useState({
     station_id: '',
     station_code: '',
@@ -33,6 +34,61 @@ function StationsForm({ setView }) {
     };
     loadZones();
   }, []);
+
+  useEffect(() => {
+    if (!showMap) return;
+
+    // Cargar Leaflet CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(link);
+
+    // Cargar Leaflet JS
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = initMap;
+    document.body.appendChild(script);
+
+    return () => {
+      document.head.removeChild(link);
+      document.body.removeChild(script);
+    };
+  }, [showMap]);
+
+  const initMap = () => {
+    if (!window.L) return;
+
+    const map = window.L.map('map-selector').setView([4.6097, -74.0817], 6); // Colombia centro
+
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    let marker = null;
+
+    map.on('click', (e) => {
+      const { lat, lng } = e.latlng;
+      
+      if (marker) {
+        map.removeLayer(marker);
+      }
+      
+      marker = window.L.marker([lat, lng]).addTo(map);
+      
+      setFormData(prev => ({
+        ...prev,
+        lat: lat.toFixed(6),
+        lon: lng.toFixed(6)
+      }));
+    });
+
+    // Si ya hay coordenadas, mostrar marker
+    if (formData.lat && formData.lon) {
+      marker = window.L.marker([parseFloat(formData.lat), parseFloat(formData.lon)]).addTo(map);
+      map.setView([parseFloat(formData.lat), parseFloat(formData.lon)], 10);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,10 +142,10 @@ function StationsForm({ setView }) {
         <label>ID único de la estación (int):</label>
         <input type="number" name="station_id" value={formData.station_id} onChange={handleChange} required min="1" placeholder="Ej: 456" />
 
-        <label>Código de la estación (str, max 50):</label>
+        <label>Código de la estación:</label>
         <input type="text" name="station_code" value={formData.station_code} onChange={handleChange} maxLength="50" required placeholder="Ej: STN001" />
 
-        <label>Nombre de la estación (str, max 200):</label>
+        <label>Nombre de la estación:</label>
         <input type="text" name="station_name" value={formData.station_name} onChange={handleChange} maxLength="200" required placeholder="Ej: Estación Central" />
 
         <label>Zona (busca y selecciona):</label>
@@ -104,22 +160,56 @@ function StationsForm({ setView }) {
         />
         <input type="hidden" name="zone_id" value={selectedZoneId || ''} />
 
-        <label>Latitud (opcional, Decimal):</label>
-        <input type="number" name="lat" value={formData.lat} onChange={handleChange} step="any" placeholder="Ej: 40.4168" />
+        <label>Ubicación Estación</label>
+          <button 
+            type="button" 
+            onClick={() => setShowMap(!showMap)}
+          >
+            {showMap ? '🗺️ Cerrar Mapa' : '📍 Seleccionar en Mapa'}
+          </button>
+        <label>Latitud:</label>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <input 
+            type="number" 
+            name="lat" 
+            value={formData.lat} 
+            onChange={handleChange} 
+            step="any" 
+            placeholder="Ej: 40.4168"
+            style={{ flex: 1 }}
+          />
+        </div>
 
-        <label>Longitud (opcional, Decimal):</label>
+        <label>Longitud:</label>
         <input type="number" name="lon" value={formData.lon} onChange={handleChange} step="any" placeholder="Ej: -3.7038" />
 
-        <label>Tipo de estación (opcional, str, max 100):</label>
+        {showMap && (
+          <div style={{ margin: '20px 0' }}>
+            <div 
+              id="map-selector" 
+              style={{ 
+                height: '400px', 
+                width: '100%', 
+                border: '2px solid #ccc',
+                borderRadius: '8px'
+              }}
+            ></div>
+            <p style={{ marginTop: '10px', fontSize: '14px', color: '#666' }}>
+              Haz clic en el mapa para seleccionar las coordenadas
+            </p>
+          </div>
+        )}
+
+        <label>Tipo de estación:</label>
         <input type="text" name="station_type" value={formData.station_type} onChange={handleChange} maxLength="100" placeholder="Ej: Meteorológica" />
 
-        <label>Autoridad responsable (opcional, str, max 100):</label>
+        <label>Autoridad responsable:</label>
         <input type="text" name="authority" value={formData.authority} onChange={handleChange} maxLength="100" placeholder="Ej: Gobierno Local" />
 
-        <label>Año mínimo de operación (opcional, int):</label>
+        <label>Año inicio de operación:</label>
         <input type="number" name="years_min" value={formData.years_min} onChange={handleChange} min="1900" max="2100" placeholder="Ej: 2000" />
 
-        <label>Año máximo de operación (opcional, int):</label>
+        <label>Último año de operación:</label>
         <input type="number" name="years_max" value={formData.years_max} onChange={handleChange} min="1900" max="2100" placeholder="Ej: 2023" />
 
         <div className="buttons-container">

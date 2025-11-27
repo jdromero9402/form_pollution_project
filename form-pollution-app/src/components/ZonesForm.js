@@ -62,28 +62,28 @@ function ZonesForm({ setView }) {
     <>
       <h2>Formulario de Zonas</h2>
       <form onSubmit={handleSubmit}>
-        <label>ID único de la zona (int):</label>
+        <label>ID único de la zona:</label>
         <input type="number" name="zone_id" value={formData.zone_id} onChange={handleChange} required min="1" placeholder="Ej: 123" />
 
-        <label>Código de la ciudad (str, max 10):</label>
+        <label>Código de la ciudad:</label>
         <input type="text" name="city_code" value={formData.city_code} onChange={handleChange} maxLength="10" required placeholder="Ej: MAD" />
 
-        <label>Nombre de la ciudad (str, max 100):</label>
+        <label>Nombre de la ciudad:</label>
         <input type="text" name="city_name" value={formData.city_name} onChange={handleChange} maxLength="100" required placeholder="Ej: Madrid" />
 
-        <label>Código de la zona (opcional, str, max 50):</label>
+        <label>Código de la zona:</label>
         <input type="text" name="zone_code" value={formData.zone_code} onChange={handleChange} maxLength="50" placeholder="Ej: Z001" />
 
-        <label>Nombre de la zona (opcional, str, max 100):</label>
+        <label>Nombre de la zona:</label>
         <input type="text" name="zone_name" value={formData.zone_name} onChange={handleChange} maxLength="100" placeholder="Ej: Centro" />
 
-        <label>Población (opcional, int):</label>
+        <label>Población:</label>
         <input type="number" name="population" value={formData.population} onChange={handleChange} min="0" placeholder="Ej: 50000" />
 
-        <label>Latitud del centroide (opcional, Decimal):</label>
+        <label>Latitud del centroide:</label>
         <input type="number" name="centroid_lat" value={formData.centroid_lat} onChange={handleChange} step="any" placeholder="Ej: 40.4168" />
 
-        <label>Longitud del centroide (opcional, Decimal):</label>
+        <label>Longitud del centroide:</label>
         <input type="number" name="centroid_lon" value={formData.centroid_lon} onChange={handleChange} step="any" placeholder="Ej: -3.7038" />
 
         <div className="buttons-container">
